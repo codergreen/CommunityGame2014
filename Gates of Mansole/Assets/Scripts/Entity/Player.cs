@@ -79,13 +79,11 @@ public class Player : MonoBehaviour {
 			if (ut.GetComponent<UiUnitType>().UnitName.Equals("Shepherd")){
 				ut.GetComponent<UiUnitType>().getPlayerStats().maxLevel=1;
 				unitAvailable.Add (true);
-			}
-			else if(ut.GetComponent<UiUnitType>().UnitName.Equals("OrcArcher")||
-			        ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSpear")||
-			        ut.GetComponent<UiUnitType>().UnitName.Equals("OrcStaff")||
-			        ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSword")||
-			        ut.GetComponent<UiUnitType>().UnitName.Equals("OrcWand")
-			){
+			} else if(ut.GetComponent<UiUnitType>().UnitName.Equals("OrcArcher")||
+			          ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSpear")||
+			          ut.GetComponent<UiUnitType>().UnitName.Equals("OrcStaff")||
+			          ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSword")||
+			          ut.GetComponent<UiUnitType>().UnitName.Equals("OrcWand")){
 				
 				unitAvailable.Add (false);
 			}
@@ -112,6 +110,22 @@ public class Player : MonoBehaviour {
     }
 
     static public void loadPlayer(GameObject[] newUnitTypes, GameObject[] newAbilities) {
+		unitAvailable = new List<bool>();
+		foreach (GameObject ut in newUnitTypes) {
+			if(ut.GetComponent<UiUnitType>().UnitName.Equals("OrcArcher")||
+	           ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSpear")||
+	           ut.GetComponent<UiUnitType>().UnitName.Equals("OrcStaff")||
+	           ut.GetComponent<UiUnitType>().UnitName.Equals("OrcSword")||
+	           ut.GetComponent<UiUnitType>().UnitName.Equals("OrcWand")){
+				
+				unitAvailable.Add (false);
+			}
+			else{
+				
+				unitAvailable.Add (true);
+			}
+		}
+
 		levelComplete = new List<List<int>>();
 		foreach(List<string> chapters in levelFileNames) {
 			levelComplete.Add(new List<int>());
