@@ -54,6 +54,7 @@ public class WaveList : MonoBehaviour {
 	public int wallHealthRegen;
 	
 	public List<GameObject> unitTypes;
+	public string[] finaleSpawnables;
 
 	void Start() {
 		unitTypes = null;
@@ -174,6 +175,32 @@ public class WaveList : MonoBehaviour {
 				break;
 			case "music":
 				backGroundMusic = int.Parse(val);
+				break;
+			case "allow":
+				finaleSpawnables = new string[levelData[i].Split(seps).Length];
+				for(int j=1;j<levelData[i].Split(seps).Length;++j)
+					finaleSpawnables[j-1]=levelData[i].Split(seps)[j];
+				break;
+			case "finale":
+				if(levelData[i].Split(seps).Length==4){
+					int numOfLines=(int.Parse(levelData[i].Split(seps)[1])*4)+2;
+					string[] finale = new string[numOfLines];
+
+					finale[0]="waittime:"+int.Parse(levelData[i].Split(seps)[2]);
+					finale[numOfLines-1]="done";
+					for(int j=0;j<int.Parse(levelData[i].Split(seps)[1]);++j){
+						finale[(j*4)+1]="waveunit:";
+						finale[(j*4)+2]="time:"+int.Parse(levelData[i].Split(seps)[3])*j;
+						finale[(j*4)+3]="unit:"+finaleSpawnables[Random.Range(0,finaleSpawnables.Length-1)];
+						finale[(j*4)+4]="spawnloc:randrow";
+						Debug.Log(finale[(j*4)+1]);
+						Debug.Log(finale[(j*4)+2]);
+						Debug.Log(finale[(j*4)+3]);
+						Debug.Log(finale[(j*4)+4]);
+					}
+					waveStarted.Add(false);
+					parseWave(finale,0,waves);
+				}
 				break;
 			default:
 				break;
